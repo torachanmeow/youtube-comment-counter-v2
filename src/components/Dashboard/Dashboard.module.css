@@ -1,0 +1,308 @@
+.videoInfo {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 16px 20px;
+}
+
+.videoTitle {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+}
+
+.videoChannel {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* ── Chat ── */
+.chatSection {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.chatHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.chatTitle {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.chatStats {
+  display: flex;
+  gap: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-faint);
+  letter-spacing: 0.04em;
+}
+
+.chatList {
+  max-height: 500px;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: 4px 8px;
+}
+
+.chatList::-webkit-scrollbar {
+  width: 8px;
+}
+
+.chatList::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.04);
+  border-radius: 4px;
+}
+
+.chatList::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+.chatList::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.chatEmpty {
+  text-align: center;
+  font-size: 14px;
+  color: var(--text-faint);
+  padding: 24px 0;
+}
+
+.chatMsg {
+  display: flex;
+  align-items: baseline;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  line-height: 1.6;
+  border-left: 3px solid transparent;
+}
+
+.chatMsg:hover {
+  background: var(--bg-hover);
+}
+
+.chatTime {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-faint);
+  margin-right: 8px;
+  flex-shrink: 0;
+  opacity: 0.6;
+}
+
+.chatAuthor {
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-right: 6px;
+  flex-shrink: 0;
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chatText {
+  color: var(--text-primary);
+  min-width: 0;
+  overflow-wrap: break-word;
+}
+
+.chatAmount {
+  margin-left: 6px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--sc-red);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.msgSuperChat {
+  background: rgba(229, 57, 53, 0.06);
+  border-left-color: var(--sc-red);
+}
+
+.msgSuperSticker {
+  background: rgba(239, 108, 0, 0.06);
+  border-left-color: var(--sc-orange);
+}
+
+.msgMembership {
+  background: rgba(46, 125, 50, 0.06);
+  border-left-color: var(--sc-green);
+}
+
+.chatKeyword {
+  background: var(--accent-glow);
+  color: var(--accent);
+  font-weight: 600;
+  padding: 1px 4px;
+  border-radius: 3px;
+}
+
+/* ── Keyword Users ── */
+.kwSection {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.kwHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.kwHeaderTitle {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.kwHeaderSub {
+  font-size: 12px;
+  color: var(--text-faint);
+}
+
+.kwGroup {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.kwGroup:last-child {
+  border-bottom: none;
+}
+
+.kwToggle {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 10px 16px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  text-align: left;
+  transition: background 0.1s ease;
+}
+
+.kwToggle:hover {
+  background: var(--bg-hover);
+}
+
+.kwName {
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-right: auto;
+}
+
+.kwSummary {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-right: 12px;
+}
+
+.kwMaxed {
+  color: var(--warning);
+  font-weight: 600;
+}
+
+.kwArrow {
+  font-size: 10px;
+  color: var(--text-faint);
+}
+
+.kwUsers {
+  padding: 6px 16px 10px 32px;
+  max-height: 300px;
+  overflow-y: auto;
+  background: rgba(0, 0, 0, 0.02);
+  border-top: 1px solid var(--border);
+}
+
+.kwEmpty {
+  font-size: 13px;
+  color: var(--text-faint);
+  padding: 8px 0;
+}
+
+.kwUserHeader {
+  display: flex;
+  align-items: center;
+  padding: 4px 0;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 2px;
+}
+
+.kwUserRow {
+  display: flex;
+  align-items: center;
+  padding: 4px 0;
+  font-size: 14px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+}
+
+.kwUserRow:last-child {
+  border-bottom: none;
+}
+
+.kwUserMaxed {
+  color: var(--sc-red);
+}
+
+.kwUserMaxed .kwUserName {
+  color: var(--sc-red);
+  font-weight: 600;
+}
+
+.kwUserName {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--text-secondary);
+}
+
+.kwUserNum {
+  width: 70px;
+  text-align: right;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--text-primary);
+  flex-shrink: 0;
+}
+
+.kwUserZero {
+  color: var(--sc-red);
+  font-weight: 700;
+}

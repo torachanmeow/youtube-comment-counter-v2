@@ -1,0 +1,173 @@
+.outer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.wrapper {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.refreshBtn {
+  padding: 8px 16px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  transition: all 0.15s ease;
+}
+
+.refreshBtn:hover:not(:disabled) {
+  background: var(--bg-hover);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.refreshBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.infoBox {
+  background: var(--info-soft);
+  border: 1px solid rgba(21, 101, 192, 0.15);
+  border-radius: var(--radius-lg);
+  padding: 14px 20px;
+}
+
+.infoTitle {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--info);
+  margin-bottom: 6px;
+  letter-spacing: 0.04em;
+}
+
+.infoList {
+  list-style: none;
+  padding: 0;
+  font-size: 13px;
+  color: var(--text-secondary);
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.infoList li::before {
+  content: "•";
+  margin-right: 6px;
+  color: var(--info);
+}
+
+.searchInput {
+  width: 100%;
+  margin-bottom: 12px;
+  font-size: 13px;
+}
+
+.rateList {
+  max-height: 400px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.rateRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  background: var(--bg-base);
+  border-radius: var(--radius);
+  font-size: 13px;
+}
+
+.rateCode {
+  width: 100px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.codeName {
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.codeSymbol {
+  color: var(--text-muted);
+}
+
+.rateCountry {
+  flex: 1;
+  color: var(--text-secondary);
+  font-weight: 500;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rateValue {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-align: right;
+}
+
+.rateLabel {
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.rateNum {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--text-primary);
+  min-width: 100px;
+  text-align: right;
+}
+
+.empty {
+  text-align: center;
+  padding: 24px;
+  color: var(--text-faint);
+  font-size: 13px;
+}
+
+.credit {
+  margin-top: 12px;
+  text-align: center;
+  font-size: 11px;
+  color: var(--text-faint);
+}
+
+.credit a {
+  color: var(--info);
+  text-decoration: none;
+}
+
+.credit a:hover {
+  text-decoration: underline;
+}

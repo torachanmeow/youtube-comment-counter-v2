@@ -1,0 +1,67 @@
+.streamWindow {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* ラベル: 左上固定（leftはpaddingXに連動） */
+.label {
+  position: absolute;
+  top: 6px;
+  font-size: 0.35em;
+  letter-spacing: 0.15em;
+  opacity: 0.5;
+}
+
+/* 数字: ラベル有り → 右下 */
+.value {
+  margin-top: auto;
+  margin-left: auto;
+  padding-bottom: 4px;
+  line-height: 1;
+}
+
+/* 数字: ラベル無し → 右中央 */
+.valueCenter {
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-left: auto;
+  line-height: 1;
+}
+
+/* ── Bounce ── */
+@keyframes bounce {
+  0% { transform: translateY(0); }
+  12% { transform: translateY(-12px); }
+  24% { transform: translateY(0); }
+  36% { transform: translateY(-7px); }
+  48% { transform: translateY(0); }
+  60% { transform: translateY(-3px); }
+  72% { transform: translateY(0); }
+  84% { transform: translateY(-1px); }
+  100% { transform: translateY(0); }
+}
+
+.bounce {
+  animation: bounce 1.2s ease-out;
+}
+
+/* ── Flip ── */
+@keyframes flip {
+  0% { transform: perspective(300px) rotateX(180deg); opacity: 0; }
+  15% { transform: perspective(300px) rotateX(-30deg); opacity: 1; }
+  30% { transform: perspective(300px) rotateX(90deg); }
+  45% { transform: perspective(300px) rotateX(-20deg); }
+  60% { transform: perspective(300px) rotateX(40deg); }
+  75% { transform: perspective(300px) rotateX(-8deg); }
+  88% { transform: perspective(300px) rotateX(12deg); }
+  100% { transform: perspective(300px) rotateX(0); }
+}
+
+.flip {
+  animation: flip 1.8s ease-out;
+}
