@@ -106,14 +106,33 @@ export function processMessage(
 
   // Membership
   const msgType = msg.snippet.type;
-  if (msgType === 'newSponsorEvent' || msgType === 'memberMilestoneChatEvent') {
+  if (msgType === 'newSponsorEvent') {
+    result.type = 'membership';
+    result.contributions.membership = 1;
+    result.highlights.push('membership');
+    const levelName = msg.snippet.newSponsorDetails?.memberLevelName || '不明';
+    const isUpgrade = msg.snippet.newSponsorDetails?.isUpgrade;
+    result.text = isUpgrade
+      ? `メンバーシップアップグレード！（${levelName}）`
+      : `新規メンバーシップ加入！（${levelName}）`;
+  } else if (msgType === 'memberMilestoneChatEvent') {
     result.type = 'membership';
     result.contributions.membership = 1;
     result.highlights.push('membership');
   } else if (msgType === 'membershipGiftingEvent') {
     result.type = 'membershipGift';
-    result.contributions.membership = msg.snippet.membershipGiftingDetails?.giftMembershipsCount || 0;
+    const giftCount = msg.snippet.membershipGiftingDetails?.giftMembershipsCount || 0;
+    result.contributions.membership = giftCount;
     result.highlights.push('membership');
+    const levelName = msg.snippet.membershipGiftingDetails?.giftMembershipsLevelName || '';
+    result.text = levelName
+      ? `${giftCount}名に「${levelName}」メンバーシップをギフト！`
+      : `${giftCount}名にメンバーシップをギフト！`;
+  } else if (msgType === 'giftMembershipReceivedEvent') {
+    result.type = 'membership';
+    result.contributions.membership = 0;
+    result.highlights.push('membership');
+    result.text = 'ギフトメンバーシップを受け取りました！';
   }
 
   // Keywords
