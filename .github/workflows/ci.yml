@@ -23,6 +23,7 @@ jobs:
 
   merge-and-deploy:
     needs: build
+    if: github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     steps:
       - name: Merge PR
