@@ -105,8 +105,13 @@ export interface YouTubeAPIChatMessage {
       amountDisplayString?: string;
       currency: string;
     };
+    newSponsorDetails?: {
+      memberLevelName?: string;
+      isUpgrade?: boolean;
+    };
     membershipGiftingDetails?: {
       giftMembershipsCount?: number;
+      giftMembershipsLevelName?: string;
     };
   };
   authorDetails: {
