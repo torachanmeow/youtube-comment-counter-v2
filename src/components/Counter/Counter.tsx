@@ -112,7 +112,7 @@ export function StatsGrid() {
         <span className={styles.statsHeaderNum}>ポイント</span>
       </div>
       {allItems.map((item) => {
-        const pts = Math.round(item.count * item.weight * 100) / 100;
+        const pts = Math.round(item.count * item.weight * 100) / 100 || 0;
         return (
           <div key={item.label} className={styles.statsRow}>
             <span className={styles.statsRowIcon}>{item.icon}</span>
