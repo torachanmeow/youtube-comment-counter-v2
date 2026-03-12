@@ -5,7 +5,6 @@ import { Counter, StatsGrid } from './components/Counter/Counter';
 import { Settings } from './components/Settings/Settings';
 import { StreamSettings } from './components/Stream/StreamSettings';
 import { LiveChat } from './components/Dashboard/LiveChat';
-import { KeywordUsers } from './components/Dashboard/KeywordUsers';
 import { ExchangeRate } from './components/Dashboard/ExchangeRate';
 import { ToastContainer } from './components/Toast/Toast';
 import { useAppController } from './hooks/useAppController';
@@ -57,6 +56,36 @@ export default function App() {
         <Counter lastFetchTime={lastFetchTime} isRunning={isRunning} status={status} isSlowMode={isSlowMode} />
       </div>
 
+      <div className={styles.quickStart}>
+        <div className={styles.quickStartTitle}>クイックスタート</div>
+        <div className={styles.steps}>
+          <div className={styles.step}>
+            <span className={styles.stepNum}>1</span>
+            <span className={styles.stepText}>API設定</span>
+          </div>
+          <span className={styles.stepArrow}>→</span>
+          <div className={styles.step}>
+            <span className={styles.stepNum}>2</span>
+            <span className={styles.stepText}>ポイント設定</span>
+          </div>
+          <span className={styles.stepArrow}>→</span>
+          <div className={styles.step}>
+            <span className={styles.stepNum}>3</span>
+            <span className={styles.stepText}>開始</span>
+          </div>
+          <span className={styles.stepArrow}>→</span>
+          <div className={styles.step}>
+            <span className={styles.stepNum}>4</span>
+            <span className={styles.stepText}>OBSウィンドウを開く</span>
+          </div>
+        </div>
+      </div>
+
+      <p className={styles.tabDesc}>
+        配信中はこの画面を開いたままにしてください。OBS用ウィンドウのポイントが自動で更新されます。<br />
+        ※ 画面を閉じると更新が停止します。最小化・タブ切り替えは問題ありません。
+      </p>
+
       <div className={styles.navRow}>
         <nav className={styles.tabs}>
           {([
@@ -82,7 +111,7 @@ export default function App() {
       <div className={styles.tabContent}>
         {tab === 'settings' && <Settings isLocked={isActive} />}
         {tab === 'stream' && <StreamSettings />}
-        {tab === 'dashboard' && <><StatsGrid /><KeywordUsers /><LiveChat /></>}
+        {tab === 'dashboard' && <><StatsGrid /><LiveChat /></>}
         {tab === 'exchange' && <ExchangeRate />}
       </div>
 

@@ -75,7 +75,7 @@ export function processMessage(
     publishedAt: msg.snippet.publishedAt,
     type: 'normal',
     highlights: [],
-    contributions: { superChat: 0, superSticker: 0, membership: 0, keywords: {} },
+    contributions: { superChat: 0, superSticker: 0, membership: 0, keywords: {}, rawKeywords: {} },
   };
 
   // SuperChat
@@ -138,6 +138,7 @@ export function processMessage(
   // Keywords
   const matched = detectKeywords(text, ctx.keywords);
   for (const [word, matchCount] of Object.entries(matched)) {
+    result.contributions.rawKeywords[word] = matchCount;
     const count = calcKeywordCount(
       authorId, word, matchCount,
       ctx.allowKeywordDuplicates, ctx.keywordDuplicateLimit,

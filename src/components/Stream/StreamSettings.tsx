@@ -102,9 +102,6 @@ const ANIMATION_OPTIONS: { label: string; value: StreamDesign['animation']; desc
 export function StreamSettings() {
   const design = useSettingsStore((s) => s.streamDesign);
   const updateStreamDesign = useSettingsStore((s) => s.updateStreamDesign);
-  const windowWidth = useSettingsStore((s) => s.streamWindowWidth);
-  const windowHeight = useSettingsStore((s) => s.streamWindowHeight);
-  const setWindowSize = useSettingsStore((s) => s.setStreamWindowSize);
   const demoTriggerRef = useRef<() => void>(null);
 
   const handleAnimationSelect = (value: StreamDesign['animation']) => {
@@ -115,13 +112,9 @@ export function StreamSettings() {
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.infoBox}>
-        <div className={styles.infoTitle}>OBS用ウィンドウについて</div>
-        OBS用ウィンドウはメインウィンドウのデータをリアルタイム表示します。メインのウィンドウを閉じると、データ取得が停止します（最小化はOK）。
-      </div>
-
       <div className={styles.section}>
         <h3 className={styles.title}>OBS用ウィンドウ設定</h3>
+        <p className={styles.titleDesc}>OBSに表示するポイントカウンターの見た目を設定します</p>
 
         <div className={styles.grid}>
           <div className={styles.field}>
@@ -190,13 +183,22 @@ export function StreamSettings() {
         <div className={styles.grid}>
           <div className={styles.field}>
             <label>表示モード</label>
-            <button
-              type="button"
-              className={`${styles.toggleBtn} ${design.pointsOnly ? styles.toggleBtnActive : ''}`}
-              onClick={() => updateStreamDesign({ pointsOnly: !design.pointsOnly })}
-            >
-              {design.pointsOnly ? '数字のみ' : 'ラベル付き'}
-            </button>
+            <div className={styles.toggleGroup}>
+              <button
+                type="button"
+                className={`${styles.toggleGroupBtn} ${!design.pointsOnly ? styles.toggleGroupBtnActive : ''}`}
+                onClick={() => updateStreamDesign({ pointsOnly: false })}
+              >
+                ラベル付き
+              </button>
+              <button
+                type="button"
+                className={`${styles.toggleGroupBtn} ${design.pointsOnly ? styles.toggleGroupBtnActive : ''}`}
+                onClick={() => updateStreamDesign({ pointsOnly: true })}
+              >
+                数字のみ
+              </button>
+            </div>
           </div>
           <div className={styles.field}>
             <label>ラベルテキスト</label>
@@ -213,6 +215,7 @@ export function StreamSettings() {
         {/* Font selector as gallery */}
         <div className={styles.field} style={{ marginBottom: 16 }}>
           <label>フォント</label>
+          <p className={styles.fieldDesc}>Google Fontsから読み込まれます</p>
           <div className={styles.fontGallery}>
             {FONT_OPTIONS.map((opt) => (
               <button
@@ -235,6 +238,7 @@ export function StreamSettings() {
         {/* Animation selector as gallery */}
         <div className={styles.field} style={{ marginBottom: 16 }}>
           <label>アニメーション</label>
+          <p className={styles.fieldDesc}>ポイントが変動したときの数字の動き方です</p>
           <div className={styles.animGallery}>
             {ANIMATION_OPTIONS.map((opt) => (
               <button
@@ -257,10 +261,39 @@ export function StreamSettings() {
         </button>
       </div>
 
-      {/* Window Size */}
-      <div className={styles.section}>
-        <h3 className={styles.title}>ウィンドウサイズ</h3>
-        <div className={styles.grid}>
+      {/* Window Size + Preview */}
+      <PreviewSection design={design} demoTriggerRef={demoTriggerRef} />
+    </div>
+  );
+}
+
+function PreviewSection({ design, demoTriggerRef }: { design: StreamDesign; demoTriggerRef: React.RefObject<(() => void) | null> }) {
+  const DEMO_VALUES = [100, 5678, 12345, 99999];
+  const [demoIndex, setDemoIndex] = useState(0);
+  const demoValue = DEMO_VALUES[demoIndex];
+  const windowWidth = useSettingsStore((s) => s.streamWindowWidth);
+  const windowHeight = useSettingsStore((s) => s.streamWindowHeight);
+  const setWindowSize = useSettingsStore((s) => s.setStreamWindowSize);
+
+  const runDemo = useCallback(() => {
+    setDemoIndex((i) => (i + 1) % DEMO_VALUES.length);
+  }, []);
+
+  useEffect(() => {
+    (demoTriggerRef as React.MutableRefObject<(() => void) | null>).current = runDemo;
+  }, [runDemo, demoTriggerRef]);
+
+  // Scale preview to fit within max width, keeping aspect ratio
+  const maxPreviewWidth = 360;
+  const scale = Math.min(1, maxPreviewWidth / windowWidth);
+  const previewW = windowWidth * scale;
+  const previewH = windowHeight * scale;
+  return (
+    <div className={styles.section}>
+      <h3 className={styles.title}>ウィンドウサイズ・プレビュー</h3>
+      <p className={styles.titleDesc}>OBSのウィンドウキャプチャのサイズに合わせて調整してください</p>
+      <div className={styles.sizePreviewRow}>
+        <div className={styles.sizeInputs}>
           <div className={styles.field}>
             <label>幅 (px)</label>
             <NumInput
@@ -280,64 +313,33 @@ export function StreamSettings() {
             />
           </div>
         </div>
-      </div>
-
-      {/* Live Preview */}
-      <PreviewSection design={design} demoTriggerRef={demoTriggerRef} />
-    </div>
-  );
-}
-
-function PreviewSection({ design, demoTriggerRef }: { design: StreamDesign; demoTriggerRef: React.RefObject<(() => void) | null> }) {
-  const DEMO_VALUES = [100, 5678, 12345, 99999];
-  const [demoIndex, setDemoIndex] = useState(0);
-  const demoValue = DEMO_VALUES[demoIndex];
-  const windowWidth = useSettingsStore((s) => s.streamWindowWidth);
-  const windowHeight = useSettingsStore((s) => s.streamWindowHeight);
-
-  const runDemo = useCallback(() => {
-    setDemoIndex((i) => (i + 1) % DEMO_VALUES.length);
-  }, []);
-
-  useEffect(() => {
-    (demoTriggerRef as React.MutableRefObject<(() => void) | null>).current = runDemo;
-  }, [runDemo, demoTriggerRef]);
-
-  // Scale preview to fit within max width, keeping aspect ratio
-  const maxPreviewWidth = 360;
-  const scale = Math.min(1, maxPreviewWidth / windowWidth);
-  const previewW = windowWidth * scale;
-  const previewH = windowHeight * scale;
-  return (
-    <div className={styles.section}>
-      <h3 className={styles.title}>プレビュー</h3>
-      <div className={styles.previewFrame}>
-        <div className={styles.previewChrome} style={{ width: previewW }}>
-          <div className={styles.previewTitleBar}>
-            <div className={styles.previewDots}><span /><span /><span /></div>
-            OBS用ウィンドウ
-          </div>
-          <div
-            className={styles.preview}
-            style={{
-              width: previewW,
-              height: previewH,
-              background: design.bgColor,
-              color: design.textColor,
-              fontSize: `${Math.max(12, design.fontSize * scale)}px`,
-              letterSpacing: `${design.letterSpacing * scale}px`,
-              paddingLeft: `${design.paddingX * scale}px`,
-              paddingRight: `${design.paddingX * scale}px`,
-              paddingTop: `${design.paddingY * scale}px`,
-              paddingBottom: `${design.paddingY * scale}px`,
-              fontFamily: design.fontFamily,
-            }}
-          >
-            {!design.pointsOnly && (design.label ?? 'POINT') && <span className={styles.previewLabel} style={{ left: `${design.paddingX * scale}px`, top: `${(design.paddingY + 6) * scale}px` }}>{design.label ?? 'POINT'}</span>}
-            <AnimatedPreview value={demoValue} animation={design.animation} style={{}} className={design.pointsOnly ? styles.previewValueCenter : undefined} />
+        <div className={styles.previewFrame}>
+          <div className={styles.previewChrome} style={{ width: previewW }}>
+            <div className={styles.previewTitleBar}>
+              <div className={styles.previewDots}><span /><span /><span /></div>
+              OBS用ウィンドウ
+            </div>
+            <div
+              className={styles.preview}
+              style={{
+                width: previewW,
+                height: previewH,
+                background: design.bgColor,
+                color: design.textColor,
+                fontSize: `${Math.max(12, design.fontSize * scale)}px`,
+                letterSpacing: `${design.letterSpacing * scale}px`,
+                paddingLeft: `${design.paddingX * scale}px`,
+                paddingRight: `${design.paddingX * scale}px`,
+                paddingTop: `${design.paddingY * scale}px`,
+                paddingBottom: `${design.paddingY * scale}px`,
+                fontFamily: design.fontFamily,
+              }}
+            >
+              {!design.pointsOnly && (design.label ?? 'POINT') && <span className={styles.previewLabel} style={{ left: `${design.paddingX * scale}px`, top: `${(design.paddingY + 6) * scale}px` }}>{design.label ?? 'POINT'}</span>}
+              <AnimatedPreview value={demoValue} animation={design.animation} style={{}} className={design.pointsOnly ? styles.previewValueCenter : undefined} />
+            </div>
           </div>
         </div>
-        <div className={styles.previewSize}>{windowWidth} × {windowHeight}px</div>
       </div>
     </div>
   );

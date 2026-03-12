@@ -33,7 +33,7 @@ interface ChatState {
   updateVideoDetails: (details: VideoDetails) => void;
   setCurrencyInfo: (info: Record<string, CurrencyInfo>) => void;
   setExchangeRates: (rates: Record<string, number>) => void;
-  updateUserWordHistory: (authorId: string, word: string) => void;
+  updateUserWordHistory: (authorId: string, word: string, effectiveCount: number, rawCount: number) => void;
   incrementFetchCount: () => void;
   resetData: (fromBroadcast?: boolean) => void;
 }
@@ -109,11 +109,12 @@ export const useChatStore = create<ChatState>()(
 
       incrementFetchCount: () => set((s) => ({ fetchCount: s.fetchCount + 1 })),
 
-      updateUserWordHistory: (authorId, word) => {
+      updateUserWordHistory: (authorId, word, effectiveCount, rawCount) => {
         const state = get();
-        const prev = state.userWordHistory.get(authorId) || { keywordCounts: {}, lastActive: 0 };
+        const prev = state.userWordHistory.get(authorId) || { keywordCounts: {}, rawCounts: {}, lastActive: 0 };
         const updated: UserWordHistory = {
-          keywordCounts: { ...prev.keywordCounts, [word]: (prev.keywordCounts[word] || 0) + 1 },
+          keywordCounts: { ...prev.keywordCounts, [word]: (prev.keywordCounts[word] || 0) + effectiveCount },
+          rawCounts: { ...prev.rawCounts, [word]: (prev.rawCounts[word] || 0) + rawCount },
           lastActive: Date.now(),
         };
         const newHistory = new LRUMap<UserWordHistory>(state.userWordHistory.maxSize);
@@ -139,7 +140,7 @@ export const useChatStore = create<ChatState>()(
     {
       name: 'ycc-chat-data',
       storage: createJSONStorage(() => localStorage),
-      partialize: (state) => ({ stats: state.stats }),
+      partialize: () => ({}),
     },
   ),
 );

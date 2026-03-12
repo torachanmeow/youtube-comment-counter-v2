@@ -124,6 +124,12 @@ input:focus, textarea:focus, select:focus {
   box-shadow: 0 0 0 3px var(--accent-soft);
 }
 
+input:disabled, textarea:disabled, select:disabled {
+  background: var(--bg-hover);
+  color: var(--text-muted);
+  cursor: not-allowed;
+}
+
 /* ── Animations ── */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(4px); }

@@ -32,15 +32,6 @@ export function ExchangeRate() {
 
   return (
     <div className={styles.outer}>
-      <div className={styles.infoBox}>
-        <div className={styles.infoTitle}>為替レートについて</div>
-        <ul className={styles.infoList}>
-          <li>外貨は日本円に換算して集計されます</li>
-          <li>為替レートは7日ごとに自動更新されます</li>
-          <li>即座に最新レートを取得したい場合は下のボタンを押してください</li>
-        </ul>
-      </div>
-
       <div className={styles.wrapper}>
       <div className={styles.header}>
         <h3 className={styles.title}>為替レート一覧</h3>
@@ -48,6 +39,7 @@ export function ExchangeRate() {
           {isLoading ? '取得中...' : '最新レート取得'}
         </button>
       </div>
+      <p className={styles.titleDesc}>外貨は日本円に換算して集計されます。<br />為替レートは7日ごとに自動更新されます。<br />即座に最新レートを取得したい場合は「最新レート取得」ボタンを押してください。</p>
 
       <input
         type="text"
