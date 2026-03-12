@@ -18,6 +18,7 @@ export interface ProcessedMessage {
     superSticker: number;
     membership: number;
     keywords: Record<string, number>;
+    rawKeywords: Record<string, number>;
   };
 }
 
@@ -131,5 +132,6 @@ export interface YouTubeVideoResponse {
 
 export interface UserWordHistory {
   keywordCounts: Record<string, number>;
+  rawCounts: Record<string, number>;
   lastActive: number;
 }

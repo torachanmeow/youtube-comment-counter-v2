@@ -48,9 +48,13 @@ export function useChatProcessor() {
         accumulated.superStickers += processed.contributions.superSticker;
         accumulated.members += processed.contributions.membership;
 
-        for (const [word, n] of Object.entries(processed.contributions.keywords)) {
-          accumulated.keywords[word] = (accumulated.keywords[word] || 0) + n;
-          for (let i = 0; i < n; i++) updateUserWordHistory(processed.authorId, word);
+        // Update raw counts for all matched keywords (even if capped to 0 effective)
+        for (const [word, rawCount] of Object.entries(processed.contributions.rawKeywords)) {
+          const effectiveCount = processed.contributions.keywords[word] || 0;
+          if (effectiveCount > 0) {
+            accumulated.keywords[word] = (accumulated.keywords[word] || 0) + effectiveCount;
+          }
+          updateUserWordHistory(processed.authorId, word, effectiveCount, rawCount);
         }
 
         count++;

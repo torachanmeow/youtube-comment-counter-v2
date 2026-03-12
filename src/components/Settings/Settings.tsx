@@ -54,30 +54,10 @@ export function Settings({ isLocked }: Props) {
 
   return (
     <div className={styles.settings}>
-      {/* Quick Start Guide */}
-      <div className={styles.quickStart}>
-        <div className={styles.quickStartTitle}>はじめかた</div>
-        <div className={styles.steps}>
-          <div className={styles.step}>
-            <span className={styles.stepNum}>1</span>
-            <span className={styles.stepText}>APIキーと動画IDを設定</span>
-          </div>
-          <span className={styles.stepArrow}>→</span>
-          <div className={styles.step}>
-            <span className={styles.stepNum}>2</span>
-            <span className={styles.stepText}>「開始」でデータ取得</span>
-          </div>
-          <span className={styles.stepArrow}>→</span>
-          <div className={styles.step}>
-            <span className={styles.stepNum}>3</span>
-            <span className={styles.stepText}>OBS用ウィンドウを設定</span>
-          </div>
-        </div>
-      </div>
-
       {/* API Settings */}
       <section className={styles.section}>
         <h3 className={styles.sectionTitle}>API設定</h3>
+        <p className={styles.sectionDesc}>YouTube Data API v3のキーとライブ配信の動画IDが必要です。APIキーはGoogle Cloud Consoleから取得できます。</p>
         <div className={styles.field}>
           <label>YouTube API Key</label>
           <input
@@ -88,44 +68,53 @@ export function Settings({ isLocked }: Props) {
             disabled={isLocked}
           />
         </div>
-        <div className={styles.field}>
-          <label>動画ID / URL</label>
-          <input
-            type="text"
-            value={videoId}
-            onChange={(e) => {
-              const v = e.target.value.trim();
-              const match = v.match(/(?:v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
-              setVideoId(match ? match[1] : v.replace(/[^a-zA-Z0-9_-]/g, ''));
-            }}
-            placeholder="動画IDまたはURL"
-            disabled={isLocked}
-          />
-        </div>
-        <div className={styles.field}>
-          <label>ポーリング間隔（秒）</label>
-          <NumInput
-            value={pollingInterval}
-            onCommit={setPollingInterval}
-            fallback={30}
-            min={10}
-            max={300}
-          />
+        <div className={styles.gridApi}>
+          <div className={styles.field}>
+            <label>動画ID / URL</label>
+            <input
+              type="text"
+              value={videoId}
+              onChange={(e) => {
+                const v = e.target.value.trim();
+                const match = v.match(/(?:v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+                setVideoId(match ? match[1] : v.replace(/[^a-zA-Z0-9_-]/g, ''));
+              }}
+              placeholder="動画IDまたはURL"
+              disabled={isLocked}
+            />
+          </div>
+          <div className={styles.field}>
+            <label>ポーリング間隔</label>
+            <div className={styles.fieldInlineInput}>
+              <NumInput
+                value={pollingInterval}
+                onCommit={setPollingInterval}
+                fallback={30}
+                min={10}
+                max={300}
+              />
+              <span className={styles.unit}>秒</span>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Weight Settings */}
+      {/* Point Settings */}
       <section className={styles.section}>
-        <h3 className={styles.sectionTitle}>ポイント倍率</h3>
-        <div className={styles.weightGrid}>
+        <h3 className={styles.sectionTitle}>ポイント設定</h3>
+
+        <h4 className={styles.subTitle}>基本倍率</h4>
+        <p className={styles.subTitleDesc}>各項目の件数 × 倍率 = ポイント。スーパーチャット・ステッカーは円換算合計額に倍率を掛けます。</p>
+        <div className={styles.weightList}>
           {[
-            { key: 'likes', label: '高評価' },
-            { key: 'superChats', label: 'スーパーチャット' },
-            { key: 'superStickers', label: 'スーパーステッカー' },
-            { key: 'members', label: 'メンバーシップ' },
-          ].map(({ key, label }) => (
-            <div key={key} className={styles.weightItem}>
-              <label>{label}</label>
+            { key: 'likes', label: '高評価', icon: '👍' },
+            { key: 'superChats', label: 'スーパーチャット', icon: '💰' },
+            { key: 'superStickers', label: 'スーパーステッカー', icon: '🎨' },
+            { key: 'members', label: 'メンバーシップ', icon: '👑' },
+          ].map(({ key, label, icon }) => (
+            <div key={key} className={styles.weightRow}>
+              <span className={styles.weightIcon}>{icon}</span>
+              <span className={styles.weightLabel}>{label}</span>
               <NumInput
                 value={weights[key as keyof typeof weights] as number}
                 onCommit={(v) => updateWeight(key, v)}
@@ -133,18 +122,61 @@ export function Settings({ isLocked }: Props) {
                 max={99999}
                 step={key === 'members' ? '1' : '0.1'}
                 disabled={isLocked}
+                className={styles.weightInput}
               />
             </div>
           ))}
         </div>
-      </section>
 
-      {/* Keyword Settings */}
-      <section className={styles.section}>
-        <h3 className={styles.sectionTitle}>キーワード設定</h3>
-        <div className={styles.keywordList}>
+        <h4 className={styles.subTitle}>重複キーワードカウント</h4>
+        <p className={styles.subTitleDesc}>同一ユーザーが同じキーワードを複数回発言した場合にカウントするかどうかの設定です</p>
+        <div className={styles.countRule}>
+          <div className={styles.countRuleHeader}>
+            <div className={styles.countRuleRow}>
+              <div className={styles.toggleGroup}>
+                <button
+                  type="button"
+                  className={`${styles.toggleGroupBtn} ${!allowKeywordDuplicates ? styles.toggleGroupBtnActive : ''}`}
+                  onClick={() => updateCountRule(false, keywordDuplicateLimit)}
+                >
+                  許可しない
+                </button>
+                <button
+                  type="button"
+                  className={`${styles.toggleGroupBtn} ${allowKeywordDuplicates ? styles.toggleGroupBtnActive : ''}`}
+                  onClick={() => updateCountRule(true, keywordDuplicateLimit)}
+                >
+                  許可する
+                </button>
+              </div>
+              {allowKeywordDuplicates && (
+                <>
+                  <label>上限</label>
+                  <NumInput
+                    value={keywordDuplicateLimit}
+                    onCommit={(v) => updateCountRule(allowKeywordDuplicates, v)}
+                    fallback={1}
+                    min={1}
+                    max={99999}
+                    className={styles.countLimitInput}
+                  />
+                  <span className={styles.unit}>回</span>
+                </>
+              )}
+            </div>
+            <p className={styles.countRuleDesc}>
+              {allowKeywordDuplicates
+                ? `同一ユーザーのキーワードを最大${keywordDuplicateLimit}回までカウントします`
+                : '同一ユーザーのキーワードは1回のみカウントします'}
+            </p>
+          </div>
+        </div>
+        <h4 className={styles.subTitle}>キーワード</h4>
+        <p className={styles.subTitleDesc}>チャットにキーワードが含まれると、右の倍率分のポイントが加算されます</p>
+        <div className={styles.weightList}>
           {keywords.map((kw, i) => (
-            <div key={i} className={styles.keywordRow}>
+            <div key={i} className={styles.weightRow}>
+              <span className={styles.weightIcon}>{i + 1}</span>
               <input
                 type="text"
                 value={kw.word}
@@ -171,39 +203,12 @@ export function Settings({ isLocked }: Props) {
                 min={-99999}
                 max={99999}
                 step="1"
-                className={styles.keywordWeight}
-                placeholder="倍率"
+                className={styles.weightInput}
+                placeholder="0"
                 disabled={isLocked}
               />
             </div>
           ))}
-        </div>
-
-        <div className={styles.countRule}>
-          <div className={styles.countRuleGrid}>
-            <div className={styles.field}>
-              <label>重複カウント</label>
-              <button
-                type="button"
-                className={`${styles.toggleBtn} ${allowKeywordDuplicates ? styles.toggleBtnActive : ''}`}
-                onClick={() => updateCountRule(!allowKeywordDuplicates, keywordDuplicateLimit)}
-              >
-                {allowKeywordDuplicates ? '許可する' : '許可しない'}
-              </button>
-            </div>
-            {allowKeywordDuplicates && (
-              <div className={styles.field}>
-                <label>重複上限</label>
-                <NumInput
-                  value={keywordDuplicateLimit}
-                  onCommit={(v) => updateCountRule(allowKeywordDuplicates, v)}
-                  fallback={1}
-                  min={1}
-                  max={99999}
-                />
-              </div>
-            )}
-          </div>
         </div>
       </section>
 

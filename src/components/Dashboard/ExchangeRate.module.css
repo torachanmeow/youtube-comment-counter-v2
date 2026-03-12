@@ -19,9 +19,9 @@
 }
 
 .title {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
-  color: var(--text-primary);
+  color: var(--text-secondary);
 }
 
 .refreshBtn {
@@ -46,35 +46,12 @@
   cursor: not-allowed;
 }
 
-.infoBox {
-  background: var(--info-soft);
-  border: 1px solid rgba(21, 101, 192, 0.15);
-  border-radius: var(--radius-lg);
-  padding: 14px 20px;
-}
-
-.infoTitle {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--info);
-  margin-bottom: 6px;
-  letter-spacing: 0.04em;
-}
-
-.infoList {
-  list-style: none;
-  padding: 0;
-  font-size: 13px;
-  color: var(--text-secondary);
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-}
-
-.infoList li::before {
-  content: "•";
-  margin-right: 6px;
-  color: var(--info);
+.titleDesc {
+  font-size: 12.5px;
+  color: var(--text-faint);
+  line-height: 1.5;
+  padding-left: 12px;
+  margin-bottom: 14px;
 }
 
 .searchInput {
@@ -159,7 +136,7 @@
 .credit {
   margin-top: 12px;
   text-align: center;
-  font-size: 11px;
+  font-size: 12.5px;
   color: var(--text-faint);
 }
 
