@@ -1,0 +1,39 @@
+.container {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.toast {
+  padding: 12px 20px;
+  border-radius: var(--radius);
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: var(--shadow-lg);
+  animation: fadeIn 0.2s ease;
+  max-width: 360px;
+}
+
+.success {
+  background: var(--success);
+  color: white;
+}
+
+.error {
+  background: var(--accent);
+  color: white;
+}
+
+.info {
+  background: var(--info);
+  color: white;
+}
+
+.warning {
+  background: var(--warning);
+  color: white;
+}
