@@ -1,0 +1,64 @@
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 0;
+}
+
+.buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.buttons button {
+  padding: 10px 24px;
+  border-radius: var(--radius);
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.15s ease;
+}
+
+.startBtn {
+  background: var(--accent);
+  color: white;
+}
+.startBtn:hover {
+  background: var(--accent-hover);
+}
+
+.pauseBtn {
+  background: var(--warning);
+  color: white;
+}
+.pauseBtn:hover {
+  opacity: 0.9;
+}
+
+.resumeBtn {
+  background: var(--success);
+  color: white;
+}
+.resumeBtn:hover {
+  opacity: 0.9;
+}
+
+.stopBtn {
+  background: var(--bg-surface);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-strong);
+}
+.stopBtn:hover {
+  background: var(--bg-hover);
+}
+
+.resetBtn {
+  background: var(--bg-surface);
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+}
+.resetBtn:hover {
+  background: var(--bg-hover);
+  color: var(--sc-red);
+  border-color: var(--sc-red);
+}
